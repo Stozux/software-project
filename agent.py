@@ -43,21 +43,22 @@ class ExampleAgent(BaseAgent):
         if len(my_agents) == 0:
             return
         
-        keys = list(my_agents.keys())
-        vetordisini = Point(self.targets[0].x, self.targets[0].y) - my_agents[keys[0]].pos
-        disini = vetordisini.length()
-        agentkey = 0
-        for key in keys:
-            vetornova = Point(self.targets[0].x, self.targets[0].y) - my_agents[keys[key]].pos
-            novadis = vetornova.length()
-            if novadis < disini:
-                disini = novadis
-                agentkey = key
+        for targ in self.targets:
+            keys = list(my_agents.keys())
+            vetordisini = Point(targ.x, targ.y) - my_agents[keys[0]].pos
+            disini = vetordisini.length()
+            agentkey = 0
+            for key in keys:
+                vetornova = Point(targ.x, targ.y) - my_agents[keys[key]].pos
+                novadis = vetornova.length()
+                if novadis < disini:
+                    disini = novadis
+                    agentkey = key
 
-        if agentkey == self.id:
-            target_velocity, target_angle_velocity = Navigation.goToPoint(self.robot, self.targets[0])
-            self.set_vel(target_velocity)
-            self.set_angle_vel(target_angle_velocity)
+            if agentkey == self.id:
+                target_velocity, target_angle_velocity = Navigation.goToPoint(self.robot, targ)
+                self.set_vel(target_velocity)
+                self.set_angle_vel(target_angle_velocity)
 
         return
 
